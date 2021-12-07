@@ -1,3 +1,4 @@
+import math
 from collections import defaultdict, Counter
 from functools import lru_cache
 from itertools import *
@@ -8,19 +9,22 @@ import statistics
 from timeit import default_timer as timer
 
 
+def get_res(avg, inp):
+    res = 0
+    for i in inp:
+        diff = abs(i - avg)
+        res += (diff*(diff+1) / 2)
+    return res
+
+
 def main(inp, is_real):
     inp = [int(i) for i in inp.strip().split(',')]
     median = statistics.median(inp)
     print(sum([abs(i - median) for i in inp]))
 
     # part 2
-    avg = round(statistics.mean(inp))
-    avg -= 1
-    res = 0
-    for i in inp:
-        diff = abs(i - avg)
-        res += (diff*(diff+1) / 2)
-    print(res)
+    avg = statistics.mean(inp)
+    print(min(get_res(math.floor(avg), inp), get_res(math.ceil(avg), inp)))
 
 
 sample_input = r"""
